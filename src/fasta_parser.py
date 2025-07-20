@@ -1,5 +1,11 @@
+# src/fasta_parser.py
+
 def read_fasta(filepath):
-    with open(filepath, 'r') as f:
-        lines = f.readlines()
-        seq = ''.join([line.strip() for line in lines if not line.startswith('>')])
-    return seq.upper()
+    """Reads a FASTA file and returns the header and sequence."""
+    with open(filepath, "r") as file:
+        lines = file.readlines()
+    if not lines or not lines[0].startswith(">"):
+        raise ValueError("Invalid FASTA format. Missing header line.")
+    header = lines[0].strip()
+    sequence = "".join(line.strip() for line in lines[1:] if line.strip()).upper()
+    return header, sequence
